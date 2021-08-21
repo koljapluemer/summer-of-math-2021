@@ -4,6 +4,8 @@ const app = Vue.createApp({
       ui: 1,
       matrixLayout: true,
       i: 0,
+      streak: 0,
+      matrices: 0,
       pairs: [
         {
           id: 0,
@@ -112,7 +114,10 @@ const app = Vue.createApp({
     },
 
     checkResult: function(e, index) {
+
+
       if (parseInt(e.target.value) === this.pairs[this.i].r[index]) {
+        this.streak++
         this.pairs[this.i].resultFields[index] = 'success'
         // dirty special case of that we are in the tutorial and the user gets it right for the first time
         if (index == 0 && this.ui == 4 ) {
@@ -121,6 +126,7 @@ const app = Vue.createApp({
         // if we have a complete correct matrix now
         if (this.pairs[this.i].resultFields.every(field => field == 'success')) {
           this.ui++
+          this.matrices++
           this.generatePair()
         }
         // get next free number field
@@ -134,13 +140,28 @@ const app = Vue.createApp({
         }
 
         nextField.focus()
-
-      } else if (parseInt(e.target.value) != '') {
+        // incorrect if the string we put in so far does not match with the first n letters of the target string
+      } else if (this.pairs[this.i].inputs[index] != this.pairs[this.i].r[index].toString().substring(0, this.pairs[this.i].inputs[index].length)) {
         this.pairs[this.i].resultFields[index] = 'incorrect'
-
+        this.streak = 0
+      } else {
+        this.pairs[this.i].resultFields[index] = ''
       }
-    },
+    }
+
+},
+computed: {
+  getSuccessfulFields() {
+    let count = 0
+    for (const el of this.pairs[this.i].resultFields) {
+      if (el == 'success') {
+        count++
+      }
+    }
+    return count + .1
   }
+}
+
 
 
 

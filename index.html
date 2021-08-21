@@ -4,17 +4,20 @@
 <head>
   <title>Matrix Multiplication Tutor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/vue@next"></script>
   <script src="./main.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <noscript>
-  <strong>This is something I slapped together in Vue.JS, so doesn't work without JavaScript enabled. To check it out, you must have JavaScript enabled and fairly recent browser.</strong>
-</noscript>
+    <strong>This is something I slapped together in Vue.JS, so doesn't work without JavaScript enabled. To check it out, you must have JavaScript enabled and fairly recent browser.</strong>
+  </noscript>
   <div id="app">
+    <div id="progressWrapper" v-if="ui > 4">
+        <progress id="slider" :value="getSuccessfulFields" :max="0.1 + pairs[i].size[2][0] * pairs[i].size[2][1]"></progress>
+    </div>
 
 
     <div id="welcome" class="card">
@@ -93,6 +96,8 @@
 
     </div>
 
+
+
     <div id="matrices-wrapper" class="card"  v-if="ui >= 3">
       <!-- v-bind sets the rows and cols according to matrix size -->
       <div id="matrices" :class="matrixLayout ? 'smartLayout' : 'dumbLayout'">
@@ -148,7 +153,7 @@ v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gri
 >
 <div class="cell" v-for="n in numberOfCells(i, 2)" :key="n" :id="n - 1">
   <input
-  type="number"
+  type="text"
   placeholder="?"
   @keyup="checkResult($event, n-1)"
   :class="{'success':(pairs[i].resultFields[n-1] == 'success'), 'incorrect':(pairs[i].resultFields[n-1] == 'incorrect')}"
@@ -159,7 +164,24 @@ v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gri
 </div>
 
 </div>
+
+
 </div>
+
+<div class="placeholder"></div>
+
+<footer>
+  <div id="banner" v-if="ui > 4">
+
+    <h2>Streak: {{ streak }}</h2>
+
+    </div>
+</footer>
+
+
+
+
+
 </div>
 
 <script>
