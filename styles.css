@@ -260,3 +260,17 @@ progress::-moz-progress-bar {
   background: #D7FFB8;
   padding: 32px;
 }
+
+#info {
+  display: flex;
+  justify-content: space-around;
+  background: #F7F7F7;
+  padding: 6px;
+  border-top: 2px solid #e5e5e5;
+}
+
+#info * {
+  font-size: 14px;
+  color: gray;
+  
+}

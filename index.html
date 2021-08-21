@@ -176,6 +176,17 @@ v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gri
     <h2>{{ msg }}</h2>
 
     </div>
+    <div id="info">
+      <button class="secondary" @click="soundOn = !soundOn">
+        {{ soundOn ? 'Mute Sounds' : 'Play Sounds'}}
+      </button>
+      <button class="secondary" @click="toggleMusic()">
+        {{ musicOn ? 'Mute Background Music' : 'Play Background Music'}}
+      </button>
+      <span>Made by Sam Plumer</span>
+      <span>Music by Lars Müller-Stumpf</span>
+      <a href="https://www.3blue1brown.com/blog/some1" target="_blank">Summer Of Math</a>
+    </div>
 </footer>
 
 

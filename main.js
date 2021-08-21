@@ -7,6 +7,8 @@ const app = Vue.createApp({
       streak: 0,
       matrices: 0,
       msg: 'Good Luck!',
+      soundOn: true,
+      musicOn: false,
       pairs: [
         {
           id: 0,
@@ -120,6 +122,25 @@ const app = Vue.createApp({
       const milestones = [4, 8, 12, 20]
       if (milestones.includes(this.streak)) {
         this.msg = "New Milestone!"
+        switch(this.streak) {
+          case 4:
+          var audio = new Audio('sounds/streak1.mp3')
+          break
+          case 8:
+          var audio = new Audio('sounds/streak2.mp3')
+          break
+          case 12:
+          var audio = new Audio('sounds/streak3.mp3')
+          break
+          case 20:
+          var audio = new Audio('sounds/streak4.mp3')
+          break
+
+        }
+        audio.volume = 0.5;
+        if (this.soundOn) {
+          audio.play()
+        }
         return true
       }
 
@@ -135,15 +156,15 @@ const app = Vue.createApp({
           return
         }
         switch(s1) {
-            case 1:
-            this.msg =  (Math.random()>0.5)? `You got ${this.streak} in a row` : `Your streak is: ${this.streak}`
-            break
-            case 2:
-            this.msg = `You are working on exercise: ${this.matrices + 1}`
-            break
-            case 3:
-            const positiveMessages = ['You got this', 'Wow!', 'Not bad', 'I am so proud of you <3', '<3', 'gj', 'leeets go', 'Impressive!']
-            this.msg =  positiveMessages[Math.floor(Math.random() * positiveMessages.length)]
+          case 1:
+          this.msg =  (Math.random()>0.5)? `You got ${this.streak} in a row` : `Your streak is: ${this.streak}`
+          break
+          case 2:
+          this.msg = `You are working on exercise: ${this.matrices + 1}`
+          break
+          case 3:
+          const positiveMessages = ['You got this', 'Wow!', 'Not bad', 'I am so proud of you <3', '<3', 'gj', 'leeets go', 'Impressive!']
+          this.msg =  positiveMessages[Math.floor(Math.random() * positiveMessages.length)]
         }
       } else if (valence == "bad"){
         const negativeMessages = [':(', 'Never Give Up!', 'Awww', 'Close!', 'Unlucky', 'Happens to the best of us...', 'Better luck next time', '...not over yet']
@@ -169,6 +190,17 @@ const app = Vue.createApp({
           this.ui++
           this.matrices++
           this.generatePair()
+          var audio = new Audio('sounds/matrix_complete.mp3');
+          audio.volume = 0.8;
+          if (this.soundOn) {
+            audio.play()
+          }
+        } else {
+          var audio = new Audio('sounds/field_complete.mp3');
+          audio.volume = 1;
+          if (this.soundOn) {
+            audio.play()
+          }
         }
         this.newMessage("good")
 
@@ -186,26 +218,43 @@ const app = Vue.createApp({
         // incorrect if the string we put in so far does not match with the first n letters of the target string
       } else if (this.pairs[this.i].inputs[index] != this.pairs[this.i].r[index].toString().substring(0, this.pairs[this.i].inputs[index].length)) {
         this.pairs[this.i].resultFields[index] = 'incorrect'
+        var audio = new Audio('sounds/nr_wrong.mp3');
+
+        if (this.soundOn) {
+          audio.play()
+        }
         this.streak = 0
         this.newMessage("bad")
       } else {
         this.pairs[this.i].resultFields[index] = ''
         this.newMessage("neutral")
       }
-    }
+    },
 
-},
-computed: {
-  getSuccessfulFields() {
-    let count = 0
-    for (const el of this.pairs[this.i].resultFields) {
-      if (el == 'success') {
-        count++
+    toggleMusic: function() {
+      this.musicOn = !this.musicOn
+      if (this.musicOn) {
+        var music = new Audio('sounds/bg.mp3');
+        music.volume = .2
+        music.loop = true;
+        music.play()
+      } else {
+        audio.pause()
       }
     }
-    return count + .1
+
+  },
+  computed: {
+    getSuccessfulFields() {
+      let count = 0
+      for (const el of this.pairs[this.i].resultFields) {
+        if (el == 'success') {
+          count++
+        }
+      }
+      return count + .1
+    }
   }
-}
 
 
 
