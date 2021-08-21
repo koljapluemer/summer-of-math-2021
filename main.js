@@ -11,6 +11,8 @@ const app = Vue.createApp({
       musicOn: false,
       music: new Audio('sounds/bg.mp3'),
       milestones: [4, 8, 12, 20],
+      maxSize: 2,
+      maxValue: 8,
       pairs: [
         {
           id: 0,
@@ -39,11 +41,11 @@ const app = Vue.createApp({
       }
       this.matrixLayout = false
 
-      const aRows = Math.floor(Math.random() * 3) + 1
-      const aCols = Math.floor(Math.random() * 3) + 1
+      const aRows = Math.floor(Math.random() * this.maxSize) + 1
+      const aCols = Math.floor(Math.random() * this.maxSize) + 1
 
       const bRows = aCols
-      const bCols = Math.floor(Math.random() * 3) + 1
+      const bCols = Math.floor(Math.random() * this.maxSize) + 1
 
       const size = [[aRows, aCols], [bRows, bCols], [aRows, bCols]]
 
@@ -56,7 +58,7 @@ const app = Vue.createApp({
       for (row; row < aRows; row++) {
         let r = []
         for (col=0; col < aCols; col++) {
-          r.push(Math.floor(Math.random() * 20) - 6)
+          r.push(Math.floor(Math.random() * this.maxValue) - Math.floor(this.maxValue / 2) + 3)
         }
         aM.push(r)
       }
@@ -67,7 +69,7 @@ const app = Vue.createApp({
       for (row=0; row < bRows; row++) {
         let r = []
         for (col=0; col <bCols; col++) {
-          r.push(Math.floor(Math.random() * 20) - 6)
+          r.push(Math.floor(Math.random() * this.maxValue) - Math.floor(this.maxValue / 2) + 3)
         }
         bM.push(r)
       }
@@ -188,6 +190,8 @@ const app = Vue.createApp({
 
         // if we have a complete correct matrix now
         if (this.pairs[this.i].resultFields.every(field => field == 'success')) {
+          this.maxSize += (Math.random()>0.75) ? 1 : 0
+          this.maxValue += 1
           this.ui++
           this.matrices++
           this.generatePair()
