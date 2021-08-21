@@ -1,0 +1,164 @@
+
+
+<html>
+<head>
+  <title>Matrix Multiplication Tutor</title>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="./main.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+
+
+    <div id="welcome" class="card">
+      <div id="screen-1" v-if="ui == 1">
+        <h2>Welcome to the Matrix Multiplication Mentor!</h2>
+        <p>
+          So you want to learn (or practice) manual matrix multiplication.
+
+          When you first start out with that topic, it is easy to make little errors that are hard to retrace
+          or to be confused by the methology.
+
+          This little tool walks you through an example and then lets you practice until you can multiply matrices in your sleep. And it is actually fun!
+          <br> <br>
+          Hint: This is also great practice for mental arithmetic.
+        </p>
+        <div class="button-container">
+          <button class="button" @click="ui++">I'm In!</button>
+        </div>
+        <p class="secondaryWrapper">
+          <button class="secondary" @click="generatePair">Skip Tutorial and Jump Right In</button>
+        </p>
+      </div>
+
+      <div id="screen-2" v-if="ui == 2">
+
+        <p>
+          This mentor assumes some foundational knowledge about matrices, for example what they are and why you would
+          want to maybe multiply them. There are a lot of great introductory articles, for example <a href="https://courses.lumenlearning.com/boundless-algebra/chapter/introduction-to-matrices/">here</a> and <a href="https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:mat-intro/a/intro-to-matrices">here</a>.
+          If you are ready, get the first pair of matrices:
+        </p>
+        <div class="button-container">
+          <button class="button" @click="ui++">Show Matrices!</button>
+        </div>
+
+      </div>
+
+      <div id="screen-3" v-if="ui == 3">
+        <p>
+          Multiplying matrices is very easy once you got it.
+          First, we match each row of the first matrix with each column of the second matrix. That sounds weird, but there is a great trick that you can replicate on paper as well.
+          Click the button below to see how it works!
+        </p>
+        <p class="secondaryWrapper" v-if="!matrixLayout">
+          <button class="secondary" @click="matrixLayout = !matrixLayout">Swap Layout Back</button>
+        </p>
+        <div class="button-container">
+          <button class="button" v-if="matrixLayout" @click="matrixLayout = !matrixLayout">Match Matrices!</button>
+        </div>
+        <div class="button-container">
+          <button class="button" v-if="!matrixLayout" @click="ui++">Go To Next Step</button>
+        </div>
+      </div>
+
+      <div id="screen-4" v-if="ui == 4">
+
+        <p>
+          For each field of our future result matrix, we will get the dot product of the row and the column "pointing" to it.
+          That simply means to multiply the corresponding values (as in: the first value of the row times the first value of the row, the second times the second, and so on) and add them all up.
+          This step is the hardest one to put in words, which is why we put it in colors.
+          <br><br>
+          Multiply the two <span class="blue">blue</span> values and the two <span class="orange">orange</span> values and add the two results together. Write the result into the <span class="highlighted">highlighted</span> field:
+        </p>
+      </div>
+
+      <div id="screen-5" v-if="ui == 5">
+        <p>
+          Good work! Do the same for all the three remaining fields now.
+        </p>
+      </div>
+
+      <div id="screen-6" v-if="ui > 5 ">
+        <p>
+          You got the basics down. You can now earn points and build skill with as many exercises as you want. They get harder over time, so keep at it!
+        </p>
+      </div>
+
+    </div>
+
+    <div id="matrices-wrapper" class="card"  v-if="ui >= 3">
+      <!-- v-bind sets the rows and cols according to matrix size -->
+      <div id="matrices" :class="matrixLayout ? 'smartLayout' : 'dumbLayout'">
+        <div
+        class="matrix"
+        id="a"
+        v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[0][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[0][1] + ', 1fr)'}"
+        >
+        <div class="cell" v-for="n in numberOfCells(i, 0)" :key="n">
+          <span
+          v-if="ui==4"
+          :class="{'blue':(n == 1), 'orange':(n == 2)}"
+          >
+          {{ pairs[i].a[n-1] }}
+        </span>
+        <span v-else>
+          {{ pairs[i].a[n-1] }}
+        </span>
+      </div>
+    </div>
+
+    <div id="x" class="sym" v-if="matrixLayout">
+      <h3>X</h3>
+    </div>
+
+    <div
+    class="matrix"
+    id="b"
+    v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[1][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[1][1] + ', 1fr)'}"
+    >
+    <div class="cell" v-for="n in numberOfCells(i, 1)" :key="n">
+      <span
+      v-if="ui==4"
+      :class="{'blue':(n == 1), 'orange':(n == 3)}"
+      >
+      {{ pairs[i].b[n-1] }}
+    </span>
+    <span v-else>
+      {{ pairs[i].b[n-1] }}
+    </span>
+  </div>
+</div>
+
+<div id="eq" class="sym" v-if="matrixLayout">
+  <h3>=</h3>
+</div>
+
+<!-- :placeholder="[[ pairs[i].r[n-1] ]]" -->
+<div
+class="matrix"
+id="r"
+v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[2][1] + ', 1fr)'}"
+>
+<div class="cell" v-for="n in numberOfCells(i, 2)" :key="n" :id="n - 1">
+  <input
+  type="number"
+  placeholder="?"
+  @keyup="checkResult($event, n-1)"
+  :class="{'success':(pairs[i].resultFields[n-1] == 'success'), 'incorrect':(pairs[i].resultFields[n-1] == 'incorrect')}"
+  v-model="pairs[i].inputs[n-1]"
+  :disabled="ui < 4 || (ui == 4 && n != 1)"
+  >
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+  const mountedApp = app.mount('#app')
+</script>
+</body>
+</html>

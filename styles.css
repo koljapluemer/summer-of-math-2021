@@ -1,0 +1,170 @@
+#matrices {
+  margin: auto;
+  display: grid;
+
+}
+
+.dumbLayout {
+  grid-template-rows: auto auto;
+  grid-template-columns: auto auto;
+  grid-template-areas:
+  ". b"
+  "a r";
+}
+
+.smartLayout {
+  grid-template-rows: auto;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-areas:
+  "a x b eq r"
+}
+
+.blue {
+  font-weight: bold;
+  color: #0f235a;
+}
+
+.orange {
+  font-weight: bold;
+  color: #c46f17;
+}
+
+.matrix {
+  border-right: 3px solid #2c3e50;
+  border-left: 3px solid #2c3e50;
+}
+
+.matrix, .sym {
+  gap: 8px;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  padding: 0 6px;
+  margin: 12px 12px;
+}
+.sym {
+  margin: 0 36px;
+}
+
+#a {
+  grid-area: a
+}
+
+
+#b {
+  grid-area: b
+}
+
+#r {
+  grid-area: r
+}
+
+
+.cell {
+  font-size: 32px;
+  margin: 8px;
+}
+
+input {
+  width: 100px;
+  font-size: 32px;
+  text-align: center;
+  border: 6px solid #84a9c9;
+  background: white;
+  color: #222;
+  padding: 6px;
+  outline: none;
+}
+
+.success {
+  border-color: #53994e;
+  background:#193c16;
+  color: white;
+}
+
+.incorrect {
+  border-color: #dea925;
+  background: white;
+  color: #222;
+}
+
+input:disabled {
+  background: #4b6d76;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 350px;
+  margin: 0 auto;
+}
+
+.button {
+  min-width: 300px;
+  border-radius: 16px;
+  border: 2px solid #e5e5e5;
+  border-bottom: 6px solid #e5e5e5;
+  margin: 10px;
+  transition: all 0.1s;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.secondaryWrapper {
+  display: flex;
+  justify-content: center
+}
+
+.secondary {
+  font-size: 14px;
+  color: gray;
+  border: none;
+  text-decoration: underline;
+  background: none;
+  cursor: pointer
+}
+
+.button:hover {
+  background-color: #ddf4ff;
+  border-color: #1cb0f6;
+  cursor: pointer;
+}
+
+.button:active {
+  border-bottom: 2px solid #1cb0f6;
+}
+
+.card {
+  max-width: min(800px, 90%);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 150px;
+  width: 100%;
+  justify-content: center;
+  text-align: initial;
+  font-size: 19px;
+  color: #3c3c3c;
+  font: 500 17px/20px sans-serif;
+  background-color: #f7f7f7;
+  border: 2px solid #e5e5e5;
+  border-radius: 10px;
+  padding:10px 25px;
+  line-height: 24px;
+  margin: 12px auto;
+}
