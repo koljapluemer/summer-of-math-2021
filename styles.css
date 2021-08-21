@@ -1,3 +1,15 @@
+#app {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+  font-size: 22px;
+  line-height: 32px;
+}
+
+
 #matrices {
   margin: auto;
   display: grid;
