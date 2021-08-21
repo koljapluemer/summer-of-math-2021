@@ -32,11 +32,11 @@ const app = Vue.createApp({
       }
       this.matrixLayout = false
 
-      const aRows = Math.floor(Math.random() * 4) + 1
-      const aCols = Math.floor(Math.random() * 4) + 1
+      const aRows = Math.floor(Math.random() * 3) + 1
+      const aCols = Math.floor(Math.random() * 3) + 1
 
       const bRows = aCols
-      const bCols = Math.floor(Math.random() * 4) + 1
+      const bCols = Math.floor(Math.random() * 3) + 1
 
       const size = [[aRows, aCols], [bRows, bCols], [aRows, bCols]]
 
@@ -49,7 +49,7 @@ const app = Vue.createApp({
       for (row; row < aRows; row++) {
         let r = []
         for (col=0; col < aCols; col++) {
-          r.push(Math.floor(Math.random() * 24) - 12)
+          r.push(Math.floor(Math.random() * 20) - 6)
         }
         aM.push(r)
       }
@@ -60,7 +60,7 @@ const app = Vue.createApp({
       for (row=0; row < bRows; row++) {
         let r = []
         for (col=0; col <bCols; col++) {
-          r.push(Math.floor(Math.random() * 24) - 12)
+          r.push(Math.floor(Math.random() * 20) - 6)
         }
         bM.push(r)
       }
