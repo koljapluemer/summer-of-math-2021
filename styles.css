@@ -143,6 +143,10 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+input:focus::placeholder {
+  color: transparent;
+}
+
 .button-container {
   display: flex;
   flex-direction: column;
@@ -272,5 +276,5 @@ progress::-moz-progress-bar {
 #info * {
   font-size: 14px;
   color: gray;
-  
+
 }

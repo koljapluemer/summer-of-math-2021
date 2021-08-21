@@ -9,6 +9,7 @@ const app = Vue.createApp({
       msg: 'Good Luck!',
       soundOn: true,
       musicOn: false,
+      music: new Audio('sounds/bg.mp3'),
       pairs: [
         {
           id: 0,
@@ -234,12 +235,11 @@ const app = Vue.createApp({
     toggleMusic: function() {
       this.musicOn = !this.musicOn
       if (this.musicOn) {
-        var music = new Audio('sounds/bg.mp3');
-        music.volume = .2
-        music.loop = true;
-        music.play()
+        this.music.volume = .2
+        this.music.loop = true;
+        this.music.play()
       } else {
-        audio.pause()
+        this.music.pause()
       }
     }
 
