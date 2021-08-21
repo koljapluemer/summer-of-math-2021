@@ -6,6 +6,7 @@ const app = Vue.createApp({
       i: 0,
       streak: 0,
       matrices: 0,
+      msg: 'Good Luck!',
       pairs: [
         {
           id: 0,
@@ -113,8 +114,46 @@ const app = Vue.createApp({
 
     },
 
-    checkResult: function(e, index) {
+    checkSpecialMessage: function() {
 
+      // Streaks
+      const milestones = [4, 8, 12, 20]
+      if (milestones.includes(this.streak)) {
+        this.msg = "New Milestone!"
+        return true
+      }
+
+      // Achievements TODO
+
+      return false
+    },
+
+    newMessage: function(valence) {
+      const s1 = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+      if(valence == "good") {
+        if (this.checkSpecialMessage()) {
+          return
+        }
+        switch(s1) {
+            case 1:
+            this.msg =  (Math.random()>0.5)? `You got ${this.streak} in a row` : `Your streak is: ${this.streak}`
+            break
+            case 2:
+            this.msg = `You are working on exercise: ${this.matrices + 1}`
+            break
+            case 3:
+            const positiveMessages = ['You got this', 'Wow!', 'Not bad', 'I am so proud of you <3', '<3', 'gj', 'leeets go', 'Impressive!']
+            this.msg =  positiveMessages[Math.floor(Math.random() * positiveMessages.length)]
+        }
+      } else if (valence == "bad"){
+        const negativeMessages = [':(', 'Never Give Up!', 'Awww', 'Close!', 'Unlucky', 'Happens to the best of us...', 'Better luck next time', '...not over yet']
+        this.msg = negativeMessages[Math.floor(Math.random() * negativeMessages.length)]
+      } else {
+        this.msg = "..."
+      }
+    },
+
+    checkResult: function(e, index) {
 
       if (parseInt(e.target.value) === this.pairs[this.i].r[index]) {
         this.streak++
@@ -123,12 +162,16 @@ const app = Vue.createApp({
         if (index == 0 && this.ui == 4 ) {
           this.ui++
         }
+
+
         // if we have a complete correct matrix now
         if (this.pairs[this.i].resultFields.every(field => field == 'success')) {
           this.ui++
           this.matrices++
           this.generatePair()
         }
+        this.newMessage("good")
+
         // get next free number field
         // weird hack that either gets the next one or the first free one,
         // but the latter part works only for fields that are before the
@@ -144,8 +187,10 @@ const app = Vue.createApp({
       } else if (this.pairs[this.i].inputs[index] != this.pairs[this.i].r[index].toString().substring(0, this.pairs[this.i].inputs[index].length)) {
         this.pairs[this.i].resultFields[index] = 'incorrect'
         this.streak = 0
+        this.newMessage("bad")
       } else {
         this.pairs[this.i].resultFields[index] = ''
+        this.newMessage("neutral")
       }
     }
 

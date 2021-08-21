@@ -103,9 +103,28 @@ input {
 }
 
 .incorrect {
-  border-color: #dea925;
-  background: white;
-  color: #222;
+  animation: shake 0.2s;
+  border-color: #ea2b2b;
+  background: #FFDFE0;
+  color: #ea2b2b;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 
 input:disabled {
