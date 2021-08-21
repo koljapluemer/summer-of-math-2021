@@ -106,17 +106,18 @@
         id="a"
         v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[0][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[0][1] + ', 1fr)'}"
         >
-        <div class="cell" v-for="n in numberOfCells(i, 0)" :key="n">
+        <transition class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 0)" :key="n">
           <span
           v-if="ui==4"
           :class="{'blue':(n == 1), 'orange':(n == 2)}"
+          :key="n"
           >
           {{ pairs[i].a[n-1] }}
         </span>
         <span v-else>
           {{ pairs[i].a[n-1] }}
         </span>
-      </div>
+      </transition>
     </div>
 
     <div id="x" class="sym" v-if="matrixLayout">
@@ -128,17 +129,19 @@
     id="b"
     v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[1][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[1][1] + ', 1fr)'}"
     >
-    <div class="cell" v-for="n in numberOfCells(i, 1)" :key="n">
+
+    <transition class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 1)" :key="n">
       <span
       v-if="ui==4"
       :class="{'blue':(n == 1), 'orange':(n == 3)}"
+                :key="n"
       >
       {{ pairs[i].b[n-1] }}
     </span>
     <span v-else>
       {{ pairs[i].b[n-1] }}
     </span>
-  </div>
+  </transition>
 </div>
 
 <div id="eq" class="sym" v-if="matrixLayout">
@@ -151,7 +154,7 @@ class="matrix"
 id="r"
 v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[2][1] + ', 1fr)'}"
 >
-<div class="cell" v-for="n in numberOfCells(i, 2)" :key="n" :id="n - 1">
+<transition class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 2)" :key="n" :id="n - 1">
   <input
   type="text"
   placeholder="?"
@@ -159,8 +162,9 @@ v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gri
   :class="{'success':(pairs[i].resultFields[n-1] == 'success'), 'incorrect':(pairs[i].resultFields[n-1] == 'incorrect')}"
   v-model="pairs[i].inputs[n-1]"
   :disabled="ui < 4 || (ui == 4 && n != 1)"
+            :key="n"
   >
-</div>
+</transition>
 </div>
 
 </div>
@@ -174,6 +178,7 @@ v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gri
   <div id="banner" v-if="ui > 4">
 
     <h2>{{ msg }}</h2>
+    <h3>Streak: {{ streak }}</h3>
 
     </div>
     <div id="info">

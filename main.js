@@ -153,19 +153,16 @@ const app = Vue.createApp({
     },
 
     newMessage: function(valence) {
-      const s1 = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+      const s1 = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
       if(valence == "good") {
         if (this.checkSpecialMessage()) {
           return
         }
         switch(s1) {
           case 1:
-          this.msg =  (Math.random()>0.5)? `You got ${this.streak} in a row` : `Your streak is: ${this.streak}`
-          break
-          case 2:
           this.msg = `You are working on exercise: ${this.matrices + 1}`
           break
-          case 3:
+          case 2:
           const positiveMessages = ['You got this', 'Wow!', 'Not bad', 'I am so proud of you <3', '<3', 'gj', 'leeets go', 'Impressive!']
           this.msg =  positiveMessages[Math.floor(Math.random() * positiveMessages.length)]
         }
