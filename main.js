@@ -10,6 +10,7 @@ const app = Vue.createApp({
       soundOn: true,
       musicOn: false,
       music: new Audio('sounds/bg.mp3'),
+      milestones: [4, 8, 12, 20],
       pairs: [
         {
           id: 0,
@@ -120,8 +121,7 @@ const app = Vue.createApp({
     checkSpecialMessage: function() {
 
       // Streaks
-      const milestones = [4, 8, 12, 20]
-      if (milestones.includes(this.streak)) {
+      if (this.milestones.includes(this.streak)) {
         this.msg = "New Milestone!"
         switch(this.streak) {
           case 4:
@@ -193,13 +193,13 @@ const app = Vue.createApp({
           this.generatePair()
           var audio = new Audio('sounds/matrix_complete.mp3');
           audio.volume = 0.8;
-          if (this.soundOn) {
+          if (this.soundOn && ! this.milestones.includes(this.streak)) {
             audio.play()
           }
         } else {
           var audio = new Audio('sounds/field_complete.mp3');
           audio.volume = 1;
-          if (this.soundOn) {
+          if (this.soundOn && ! this.milestones.includes(this.streak)) {
             audio.play()
           }
         }
@@ -235,7 +235,7 @@ const app = Vue.createApp({
     toggleMusic: function() {
       this.musicOn = !this.musicOn
       if (this.musicOn) {
-        this.music.volume = .2
+        this.music.volume = .4
         this.music.loop = true;
         this.music.play()
       } else {
