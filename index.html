@@ -1,23 +1,27 @@
-
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matrix Multiplication Mentor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/vue@next"></script>
-  <script src="./main.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <link rel="stylesheet" href="styles.css">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
   <noscript>
-    <strong>This is something I slapped together in Vue.JS, so doesn't work without JavaScript enabled. To check it out, you must have JavaScript enabled and fairly recent browser.</strong>
+    <strong>This is something I slapped together in Vue.JS, so doesn't work without JavaScript enabled. To check it out,
+      you must have JavaScript enabled and fairly recent browser.</strong>
   </noscript>
   <div id="app">
     <div id="progressWrapper" v-if="ui > 4">
-        <progress id="slider" :value="getSuccessfulFields" :max="0.1 + pairs[i].size[2][0] * pairs[i].size[2][1]"></progress>
+      <progress id="slider" :value="getSuccessfulFields"
+        :max="0.1 + pairs[i].size[2][0] * pairs[i].size[2][1]"></progress>
     </div>
 
 
@@ -30,7 +34,8 @@
           When you first start out with that topic, it is easy to make little errors that are hard to retrace
           or to be confused by the methology.
 
-          This little tool walks you through an example and then lets you practice until you can multiply matrices in your sleep. And it is actually fun!
+          This little tool walks you through an example and then lets you practice until you can multiply matrices in
+          your sleep. And it is actually fun!
           <br> <br>
           Hint: This is also great practice for mental arithmetic.
         </p>
@@ -46,7 +51,10 @@
 
         <p>
           This mentor assumes some foundational knowledge about matrices, for example what they are and why you would
-          want to maybe multiply them. There are a lot of great introductory articles, for example <a target="_blank" href="https://courses.lumenlearning.com/boundless-algebra/chapter/introduction-to-matrices/">here</a> and <a  target="_blank" href="https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:mat-intro/a/intro-to-matrices">here</a>.
+          want to maybe multiply them. There are a lot of great introductory articles, for example <a target="_blank"
+            href="https://courses.lumenlearning.com/boundless-algebra/chapter/introduction-to-matrices/">here</a> and <a
+            target="_blank"
+            href="https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:mat-intro/a/intro-to-matrices">here</a>.
           If you are ready, get the first pair of matrices:
         </p>
         <div class="button-container">
@@ -58,7 +66,8 @@
       <div id="screen-3" v-if="ui == 3">
         <p>
           Multiplying matrices is very easy once you got it.
-          First, we match each row of the first matrix with each column of the second matrix. That sounds weird, but there is a great trick that you can replicate on paper as well.
+          First, we match each row of the first matrix with each column of the second matrix. That sounds weird, but
+          there is a great trick that you can replicate on paper as well.
           Click the button below to see how it works!
         </p>
         <p class="secondaryWrapper" v-if="!matrixLayout">
@@ -75,11 +84,15 @@
       <div id="screen-4" v-if="ui == 4">
 
         <p>
-          For each field of our future result matrix, we will get the dot product of the row and the column "pointing" to it.
-          That simply means to multiply the corresponding values (as in: the first value of the row times the first value of the row, the second times the second, and so on) and add them all up.
+          For each field of our future result matrix, we will get the dot product of the row and the column "pointing"
+          to it.
+          That simply means to multiply the corresponding values (as in: the first value of the row times the first
+          value of the row, the second times the second, and so on) and add them all up.
           This step is the hardest one to put in words, which is why we put it in colors.
           <br><br>
-          Multiply the two <span class="blue">blue</span> values and the two <span class="orange">orange</span> values and add the two results together. Write the result into the <span class="highlighted">highlighted</span> field:
+          Multiply the two <span class="blue">blue</span> values and the two <span class="orange">orange</span> values
+          and add the two results together. Write the result into the <span class="highlighted">highlighted</span>
+          field:
         </p>
       </div>
 
@@ -91,7 +104,8 @@
 
       <div id="screen-6" v-if="ui > 5 ">
         <p>
-          You got the basics down. You can now practice and build skill with as many exercises as you want. They get harder over time, so keep at it!
+          You got the basics down. You can now practice and build skill with as many exercises as you want. They get
+          harder over time, so keep at it!
         </p>
       </div>
 
@@ -99,109 +113,91 @@
 
 
 
-    <div id="matrices-wrapper" class="card"  v-if="ui >= 3">
+    <div id="matrices-wrapper" class="card" v-if="ui >= 3">
       <!-- v-bind sets the rows and cols according to matrix size -->
       <div id="matrices" :class="matrixLayout ? 'smartLayout' : 'dumbLayout'">
-        <div
-        class="matrix"
-        id="a"
-        v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[0][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[0][1] + ', 1fr)'}"
-        >
-        <div class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 0)" :key="n">
-          <span
-          v-if="ui==4"
-          :class="{'blue':(n == 1), 'orange':(n == 2)}"
-          >
-          {{ pairs[i].a[n-1] }}
-        </span>
-        <span v-else>
-          {{ pairs[i].a[n-1] }}
-        </span>
+        <div class="matrix" id="a"
+          v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[0][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[0][1] + ', 1fr)'}">
+          <div class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 0)" :key="n">
+            <span v-if="ui==4" :class="{'blue':(n == 1), 'orange':(n == 2)}">
+              {{ pairs[i].a[n-1] }}
+            </span>
+            <span v-else>
+              {{ pairs[i].a[n-1] }}
+            </span>
+          </div>
+        </div>
+
+        <div id="x" class="sym" v-if="matrixLayout">
+          <h3>X</h3>
+        </div>
+
+        <div class="matrix" id="b"
+          v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[1][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[1][1] + ', 1fr)'}">
+
+          <div class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 1)" :key="n">
+            <span v-if="ui==4" :class="{'blue':(n == 1), 'orange':(n == 3)}">
+              {{ pairs[i].b[n-1] }}
+            </span>
+            <span v-else>
+              {{ pairs[i].b[n-1] }}
+            </span>
+          </div>
+        </div>
+
+        <div id="eq" class="sym" v-if="matrixLayout">
+          <h3>=</h3>
+        </div>
+
+        <!-- :placeholder="[[ pairs[i].r[n-1] ]]" -->
+        <div class="matrix" id="r"
+          v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[2][1] + ', 1fr)'}">
+          <div class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 2)" :key="n" :id="n - 1">
+            <input type="text" placeholder="?" @keyup="checkResult($event, n-1)"
+              :class="{'success':(pairs[i].resultFields[n-1] == 'success'), 'incorrect':(pairs[i].resultFields[n-1] == 'incorrect')}"
+              v-model="pairs[i].inputs[n-1]" :disabled="ui < 4 || (ui == 4 && n != 1)">
+          </div>
+        </div>
+
       </div>
+
+
     </div>
 
-    <div id="x" class="sym" v-if="matrixLayout">
-      <h3>X</h3>
-    </div>
+    <div class="placeholder"></div>
 
-    <div
-    class="matrix"
-    id="b"
-    v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[1][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[1][1] + ', 1fr)'}"
-    >
+    <footer>
+      <div id="banner" v-if="ui > 4">
 
-    <div class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 1)" :key="n">
-      <span
-      v-if="ui==4"
-      :class="{'blue':(n == 1), 'orange':(n == 3)}"
-      >
-      {{ pairs[i].b[n-1] }}
-    </span>
-    <span v-else>
-      {{ pairs[i].b[n-1] }}
-    </span>
+        <h2>{{ msg }}</h2>
+        <h3>Streak: {{ streak }}</h3>
+
+      </div>
+      <div id="info">
+        <button class="secondary" @click="soundOn = !soundOn">
+          {{ soundOn ? 'Mute Sounds' : 'Play Sounds'}}
+        </button>
+        <button class="secondary" @click="toggleMusic()">
+          {{ musicOn ? 'Mute Background Music' : 'Play Background Music'}}
+        </button>
+        <a href="https://github.com/blackbrokkoli/summer-of-math-2021">Steal The Code</a>
+        <span>Made by <a href="https://koljasam.com/">Kolja Sam</a> in 2021.</span>
+
+        <span>Sounddesign by <a href="https://soundcloud.com/user-168720982">Lars Müller-Stumpf</a> </span>
+        <a href="https://www.3blue1brown.com/blog/some1" target="_blank">Summer Of Math</a>
+      </div>
+    </footer>
+
+
+
+
+
   </div>
-</div>
 
-<div id="eq" class="sym" v-if="matrixLayout">
-  <h3>=</h3>
-</div>
-
-<!-- :placeholder="[[ pairs[i].r[n-1] ]]" -->
-<div
-class="matrix"
-id="r"
-v-bind:style="{gridTemplateRows: 'repeat(' + pairs[i].size[2][0] + ', 1fr)', gridTemplateColumns: 'repeat(' + pairs[i].size[2][1] + ', 1fr)'}"
->
-<div class="cell " name="slide-fade" mode="out-in" v-for="n in numberOfCells(i, 2)" :key="n" :id="n - 1">
-  <input
-  type="text"
-  placeholder="?"
-  @keyup="checkResult($event, n-1)"
-  :class="{'success':(pairs[i].resultFields[n-1] == 'success'), 'incorrect':(pairs[i].resultFields[n-1] == 'incorrect')}"
-  v-model="pairs[i].inputs[n-1]"
-  :disabled="ui < 4 || (ui == 4 && n != 1)"
-  >
-</div>
-</div>
-
-</div>
-
-
-</div>
-
-<div class="placeholder"></div>
-
-<footer>
-  <div id="banner" v-if="ui > 4">
-
-    <h2>{{ msg }}</h2>
-    <h3>Streak: {{ streak }}</h3>
-
-    </div>
-    <div id="info">
-      <button class="secondary" @click="soundOn = !soundOn">
-        {{ soundOn ? 'Mute Sounds' : 'Play Sounds'}}
-      </button>
-      <button class="secondary" @click="toggleMusic()">
-        {{ musicOn ? 'Mute Background Music' : 'Play Background Music'}}
-      </button>
-      <a href="https://github.com/blackbrokkoli/summer-of-math-2021">Steal The Code</a>
-      <span>Made by Kolja Pluemer</span>
-
-      <span>Sounddesign by <a href="https://soundcloud.com/user-168720982">Lars Müller-Stumpf</a> </span>
-      <a href="https://www.3blue1brown.com/blog/some1" target="_blank">Summer Of Math</a>
-    </div>
-</footer>
-
-
-
-
-
-</div>
-
-<script>
-  const mountedApp = app.mount('#app')
-</script>
+  <script src="./main.js"></script>
+  <script>
+    const mountedApp = app.mount('#app')
+  </script>
 </body>
+
 </html>
